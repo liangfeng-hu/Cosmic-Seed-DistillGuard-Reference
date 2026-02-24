@@ -59,18 +59,19 @@ docs/threat-model-and-solution.md – attack vectors vs. fail-closed outcomes
 
 docs/integration-guide.md – Pre-Commit sidecar integration (data-minimizing)
 
+docs/poc-spec-onepager.md – internal pilot spec (2–4 weeks)
+
+docs/audit-keys-minimum.md – minimum evidence closure list for reproducible verdicts
+
 License
 
 Apache-2.0
 
 
----
+（iPhone 操作提醒，超傻瓜版）
+1）打开仓库 → 点 `README.md`  
+2）点右上角铅笔“Edit”  
+3）全选删除 → 粘贴上面这一整份 → Commit changes
+::contentReference[oaicite:0]{index=0}
 
-文件名称：《NOTICE》
-```text
-Cosmic-Seed DistillGuard Reference
-Copyright 2026 YFCore Technology Limited.
-
-This repository provides a reference implementation and interface specification for a
-fail-closed anti-distillation gateway (Gate 90 + Gate 91 + LSE).
-It intentionally excludes all production-grade cryptographic circuits and hardware attestation.
+本防蒸馏网关是 V∞ AGI 操作系统底层总线的首个工业落地场景，查看完整战略架构请访问 [Repo 2 的链接]
