@@ -1,0 +1,6 @@
+Cosmic-Seed DistillGuard Reference
+Copyright 2026 YFCore Technology Limited.
+
+This repository provides a reference implementation and interface specification for a
+fail-closed anti-distillation gateway (Gate 90 + Gate 91 + LSE).
+It intentionally excludes all production-grade cryptographic circuits and hardware attestation.
