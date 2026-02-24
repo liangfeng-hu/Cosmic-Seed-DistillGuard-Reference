@@ -39,12 +39,10 @@ class DistillGuardTrinityReference:
         log("INFO", "ROUTER", f"Request [{req_id}] | Scenario: {scenario}")
         log("PAYLOAD", "INPUT", json.dumps(payload, indent=2, ensure_ascii=False))
 
-        # Gate 90 (cheap)
         g90 = self.g90.check(payload)
         i_90 = g90["i_90"]
         log("INFO", "GATE_90", f"i_90={i_90} reason={g90['reason_code']} tau_work_multiplier={g90['tau_work_multiplier']}")
 
-        # If Gate 90 fails, skip expensive paths
         if i_90 != 0:
             log("ALERT", "FAIL-CLOSED", "Gate 90 failed → skip Gate 91 → OutLevel=EvidencePlan")
             resp = {
@@ -61,13 +59,11 @@ class DistillGuardTrinityReference:
             log("PAYLOAD", "OUTPUT", json.dumps(resp, indent=2, ensure_ascii=False))
             return resp
 
-        # Gate 91 (physical)
         payload["tau_work_multiplier"] = g90["tau_work_multiplier"]
         g91 = self.g91.check(payload)
         i_91 = g91["i_91"]
         log("INFO", "GATE_91", f"i_91={i_91} reason={g91['reason_code']}")
 
-        # LSE (meta binding)
         lse = self.lse.check(payload, i_90, i_91)
         i_lse = lse["i_lse"]
         log("INFO", "LSE", f"i_lse={i_lse} reason={lse['reason_code']}")
