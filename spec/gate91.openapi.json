@@ -1,0 +1,66 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "DistillGuard Gate 91 API (Reference)",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/v1/gates/91/check": {
+      "post": {
+        "summary": "Check Gate 91 (I_ENTROPY_CLONE)",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Gate91Request" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Gate 91 verdict",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Gate91Response" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ThermoAuditGroup": {
+        "type": "object",
+        "required": ["hardware_signature_hash", "pi_thermo_zkp", "delta_s_t", "tau_work_required"],
+        "properties": {
+          "hardware_signature_hash": { "type": "string" },
+          "pi_thermo_zkp": { "type": "string" },
+          "delta_s_t": { "type": "number" },
+          "tau_work_required": { "type": "number" }
+        }
+      },
+      "Gate91Request": {
+        "type": "object",
+        "required": ["request_id", "timestamp_utc", "risk_class", "thermo_audit_group"],
+        "properties": {
+          "request_id": { "type": "string" },
+          "timestamp_utc": { "type": "string" },
+          "risk_class": { "type": "string" },
+          "tau_work_multiplier": { "type": "number", "minimum": 1.0, "default": 1.0 },
+          "thermo_audit_group": { "$ref": "#/components/schemas/ThermoAuditGroup" }
+        }
+      },
+      "Gate91Response": {
+        "type": "object",
+        "required": ["request_id", "i_91", "reason_code"],
+        "properties": {
+          "request_id": { "type": "string" },
+          "i_91": { "oneOf": [{ "type": "number", "enum": [0] }, { "type": "string", "enum": ["+∞"] }] },
+          "reason_code": { "type": "string", "enum": ["RC_SUCCESS", "RC_THERMO_FORGERY"] }
+        }
+      }
+    }
+  }
+}
