@@ -30,35 +30,38 @@ This repository is a **reference implementation + interface contract** that demo
 
 ```bash
 python reference-impl/python/demo.py
-```
 
 You will see 4 scenarios:
-1) Legit user → all gates pass → `I_FLOW=0` → `WorldWriteback=1`  
-2) Proxy distillation script → Gate 91 fails → `RC_THERMO_FORGERY` → `ShadowOnly`  
-3) Temporal fracture / multi-agent discontinuity → Gate 90 fails → `RC_SEED_BREAK` → `EvidencePlan`  
-4) Distillation intent detected → Gate 90 fails → `RC_DISTILLATION_INTENT_DETECTED` → `EvidencePlan`
 
----
+Legit user → all gates pass → I_FLOW=0 → WorldWriteback=1
 
-## Interfaces (OpenAPI, mockable)
+Proxy distillation script → Gate 91 fails → RC_THERMO_FORGERY → ShadowOnly
 
-- `spec/gate90.openapi.json` → POST `/v1/gates/90/check`
-- `spec/gate91.openapi.json` → POST `/v1/gates/91/check`
-- `spec/lse.openapi.json` → POST `/v1/meta/lse/check`
+Temporal fracture / multi-agent discontinuity → Gate 90 fails → RC_SEED_BREAK → EvidencePlan
 
----
+Distillation intent detected → Gate 90 fails → RC_DISTILLATION_INTENT_DETECTED → EvidencePlan
 
-## Docs
+Interfaces (OpenAPI, mockable)
 
-- `docs/trinity-architecture.md` – the closed-loop logic
-- `docs/threat-model-and-solution.md` – attack vectors vs. fail-closed outcomes
-- `docs/integration-guide.md` – Pre-Commit sidecar integration (data-minimizing)
-- `docs/poc-spec-onepager.md` – internal pilot spec (2–4 weeks)
-- `docs/audit-keys-minimum.md` – minimum evidence closure list for reproducible verdicts
+spec/gate90.openapi.json → POST /v1/gates/90/check
 
----
+spec/gate91.openapi.json → POST /v1/gates/91/check
 
-## License
+spec/lse.openapi.json → POST /v1/meta/lse/check
+
+Docs
+
+docs/trinity-architecture.md – the closed-loop logic
+
+docs/threat-model-and-solution.md – attack vectors vs. fail-closed outcomes
+
+docs/integration-guide.md – Pre-Commit sidecar integration (data-minimizing)
+
+docs/poc-spec-onepager.md – internal pilot spec (2–4 weeks)
+
+docs/audit-keys-minimum.md – minimum evidence closure list for reproducible verdicts
+
+License
 
 Apache-2.0
 
