@@ -2,6 +2,7 @@ import math
 
 INF = math.inf
 
+
 class Gate91Reference:
     """
     Reference-only Gate 91 checker.
