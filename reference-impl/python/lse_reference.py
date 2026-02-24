@@ -2,6 +2,7 @@ import math
 
 INF = math.inf
 
+
 class LSEReference:
     """
     Reference-only LSE meta-gate.
