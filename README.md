@@ -67,11 +67,4 @@ License
 
 Apache-2.0
 
-
-（iPhone 操作提醒，超傻瓜版）
-1）打开仓库 → 点 `README.md`  
-2）点右上角铅笔“Edit”  
-3）全选删除 → 粘贴上面这一整份 → Commit changes
-::contentReference[oaicite:0]{index=0}
-
 本防蒸馏网关是 V∞ AGI 操作系统底层总线的首个工业落地场景，查看完整战略架构请访问 [Repo 2 的链接]
