@@ -10,7 +10,7 @@ This repository is a **reference implementation + interface contract** that demo
 > IMPORTANT: This repo intentionally EXCLUDES production-grade components:
 > - real ZKP circuits & verification keys
 > - real TEE/attestation chain implementation
-> - real π_seed generator and continuity proofs
+> - real π_seed generator and continuity proofs  
 > You can run the demo and integrate mocks, but you cannot reverse-engineer the core.
 
 ---
@@ -19,10 +19,8 @@ This repository is a **reference implementation + interface contract** that demo
 
 - **Gate 90 (I_AWAKE_SCORE)**: near-zero-cost filter for intent/extraction risk + temporal continuity.  
   Stops the majority of cheap automation and prevents expensive proof paths from being DoS’d.
-
 - **Gate 91 (I_ENTROPY_CLONE)**: physical anchor requiring thermodynamic work proof (mocked here).  
   Blocks high-fidelity extraction by pure software/proxy farms that cannot produce real hardware-bound proof.
-
 - **LSE (I_LSE)**: meta-axiom that forces **Intent × Temporal × Physical** to be simultaneously satisfied.  
   Any fracture → absolute Fail-Closed.
 
@@ -32,39 +30,36 @@ This repository is a **reference implementation + interface contract** that demo
 
 ```bash
 python reference-impl/python/demo.py
+```
 
 You will see 4 scenarios:
+1) Legit user → all gates pass → `I_FLOW=0` → `WorldWriteback=1`  
+2) Proxy distillation script → Gate 91 fails → `RC_THERMO_FORGERY` → `ShadowOnly`  
+3) Temporal fracture / multi-agent discontinuity → Gate 90 fails → `RC_SEED_BREAK` → `EvidencePlan`  
+4) Distillation intent detected → Gate 90 fails → `RC_DISTILLATION_INTENT_DETECTED` → `EvidencePlan`
 
-Legit user → all gates pass → I_FLOW=0 → WorldWriteback=1
+---
 
-Proxy distillation script → Gate 91 fails → RC_THERMO_FORGERY → ShadowOnly
+## Interfaces (OpenAPI, mockable)
 
-Temporal fracture / multi-agent discontinuity → Gate 90 fails → RC_SEED_BREAK → EvidencePlan
+- `spec/gate90.openapi.json` → POST `/v1/gates/90/check`
+- `spec/gate91.openapi.json` → POST `/v1/gates/91/check`
+- `spec/lse.openapi.json` → POST `/v1/meta/lse/check`
 
-Distillation intent detected → Gate 90 fails → RC_DISTILLATION_INTENT_DETECTED → EvidencePlan
+---
 
-Interfaces (OpenAPI, mockable)
+## Docs
 
-spec/gate90.openapi.json → POST /v1/gates/90/check
+- `docs/trinity-architecture.md` – the closed-loop logic
+- `docs/threat-model-and-solution.md` – attack vectors vs. fail-closed outcomes
+- `docs/integration-guide.md` – Pre-Commit sidecar integration (data-minimizing)
+- `docs/poc-spec-onepager.md` – internal pilot spec (2–4 weeks)
+- `docs/audit-keys-minimum.md` – minimum evidence closure list for reproducible verdicts
 
-spec/gate91.openapi.json → POST /v1/gates/91/check
+---
 
-spec/lse.openapi.json → POST /v1/meta/lse/check
-
-Docs
-
-docs/trinity-architecture.md – the closed-loop logic
-
-docs/threat-model-and-solution.md – attack vectors vs. fail-closed outcomes
-
-docs/integration-guide.md – Pre-Commit sidecar integration (data-minimizing)
-
-docs/poc-spec-onepager.md – internal pilot spec (2–4 weeks)
-
-docs/audit-keys-minimum.md – minimum evidence closure list for reproducible verdicts
-
-License
+## License
 
 Apache-2.0
 
-本防蒸馏网关是 V∞ AGI 操作系统底层总线的首个工业落地场景，查看完整战略架构请访问 Repo 2
+本防蒸馏网关是 V∞ AGI 操作系统底层总线的首个工业落地场景，查看完整战略架构请访问 [Repo 2](https://github.com/liangfeng-hu/V-infinity-Origin-Compiler-Executor-Reference/tree/main)。
