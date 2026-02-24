@@ -2,6 +2,7 @@ Cosmic-Seed DistillGuard Reference
 Copyright 2026 YFCore Technology Limited.
 
 This repository provides a reference implementation and interface specification for
-a fail-closed anti-distillation gateway using Trinity architecture (Gate 90 + Gate 91 + LSE).
+a fail-closed anti-distillation gateway using Trinity architecture (Gate 90 + Gate 91 + Law (I_LSE)).
+
 It intentionally excludes all production-grade cryptographic circuits, hardware attestation,
 and π_seed generator implementations.
