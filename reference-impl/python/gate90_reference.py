@@ -2,6 +2,7 @@ import math
 
 INF = math.inf
 
+
 class Gate90Reference:
     """
     Reference-only Gate 90 (I_AWAKE_SCORE).
@@ -24,19 +25,17 @@ class Gate90Reference:
                 "request_id": req_id,
                 "i_90": "+∞",
                 "reason_code": "RC_SEED_BREAK",
-                "tau_work_multiplier": 1.0
+                "tau_work_multiplier": 1.0,
             }
 
         if distill_score > tau_intent:
-            # tighten physical work requirement if even attempting to pass through
             return {
                 "request_id": req_id,
                 "i_90": "+∞",
                 "reason_code": "RC_DISTILLATION_INTENT_DETECTED",
-                "tau_work_multiplier": 1.5
+                "tau_work_multiplier": 1.5,
             }
 
-        # mild tightening for suspicious-but-below-threshold scores (reference-only)
         mult = 1.0
         if distill_score >= (tau_intent * 0.8):
             mult = 1.2
@@ -45,5 +44,5 @@ class Gate90Reference:
             "request_id": req_id,
             "i_90": 0,
             "reason_code": "RC_SUCCESS",
-            "tau_work_multiplier": mult
+            "tau_work_multiplier": mult,
         }
