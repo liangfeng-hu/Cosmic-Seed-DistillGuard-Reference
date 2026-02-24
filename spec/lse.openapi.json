@@ -1,0 +1,71 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "DistillGuard LSE Meta-Gate API (Reference)",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/v1/meta/lse/check": {
+      "post": {
+        "summary": "Check LSE (I_LSE) - binds gates + infrastructure support",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/LSERequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "LSE verdict",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/LSEResponse" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "LSESupportGroup": {
+        "type": "object",
+        "required": ["verifier_consensus_hash", "energy_budget_ok"],
+        "properties": {
+          "verifier_consensus_hash": { "type": "string" },
+          "energy_budget_ok": { "type": "boolean" }
+        }
+      },
+      "GateResults": {
+        "type": "object",
+        "required": ["i_90", "i_91"],
+        "properties": {
+          "i_90": { "oneOf": [{ "type": "number", "enum": [0] }, { "type": "string", "enum": ["+∞"] }] },
+          "i_91": { "oneOf": [{ "type": "number", "enum": [0] }, { "type": "string", "enum": ["+∞"] }] }
+        }
+      },
+      "LSERequest": {
+        "type": "object",
+        "required": ["request_id", "timestamp_utc", "lse_support_group", "gate_results"],
+        "properties": {
+          "request_id": { "type": "string" },
+          "timestamp_utc": { "type": "string" },
+          "lse_support_group": { "$ref": "#/components/schemas/LSESupportGroup" },
+          "gate_results": { "$ref": "#/components/schemas/GateResults" }
+        }
+      },
+      "LSEResponse": {
+        "type": "object",
+        "required": ["request_id", "i_lse", "reason_code"],
+        "properties": {
+          "request_id": { "type": "string" },
+          "i_lse": { "oneOf": [{ "type": "number", "enum": [0] }, { "type": "string", "enum": ["+∞"] }] },
+          "reason_code": { "type": "string", "enum": ["RC_SUCCESS", "RC_LSE_VIOLATION"] }
+        }
+      }
+    }
+  }
+}
