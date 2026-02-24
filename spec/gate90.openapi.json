@@ -1,0 +1,80 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "DistillGuard Gate 90 API (Reference)",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/v1/gates/90/check": {
+      "post": {
+        "summary": "Check Gate 90 (I_AWAKE_SCORE)",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Gate90Request" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Gate 90 verdict",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Gate90Response" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "TemporalSeedGroup": {
+        "type": "object",
+        "required": ["pi_seed_t", "seed_continuity_proof"],
+        "properties": {
+          "pi_seed_t": { "type": "string" },
+          "seed_continuity_proof": { "type": "string" }
+        }
+      },
+      "IntentAuditGroup": {
+        "type": "object",
+        "required": ["distillation_risk_score"],
+        "properties": {
+          "distillation_risk_score": { "type": "number", "minimum": 0, "maximum": 1 },
+          "extraction_pattern_flags": { "type": "array", "items": { "type": "string" } },
+          "prompt_similarity_hash": { "type": "string" },
+          "query_velocity_tps": { "type": "number" },
+          "output_entropy_drop": { "type": "number" }
+        }
+      },
+      "Gate90Request": {
+        "type": "object",
+        "required": ["request_id", "timestamp_utc", "risk_class", "temporal_seed_group", "intent_audit_group"],
+        "properties": {
+          "request_id": { "type": "string" },
+          "timestamp_utc": { "type": "string" },
+          "risk_class": { "type": "string" },
+          "tau_intent": { "type": "number", "minimum": 0, "maximum": 1, "default": 0.65 },
+          "temporal_seed_group": { "$ref": "#/components/schemas/TemporalSeedGroup" },
+          "intent_audit_group": { "$ref": "#/components/schemas/IntentAuditGroup" }
+        }
+      },
+      "Gate90Response": {
+        "type": "object",
+        "required": ["request_id", "i_90", "reason_code", "tau_work_multiplier"],
+        "properties": {
+          "request_id": { "type": "string" },
+          "i_90": { "oneOf": [{ "type": "number", "enum": [0] }, { "type": "string", "enum": ["+∞"] }] },
+          "reason_code": {
+            "type": "string",
+            "enum": ["RC_SUCCESS", "RC_SEED_BREAK", "RC_DISTILLATION_INTENT_DETECTED"]
+          },
+          "tau_work_multiplier": { "type": "number", "minimum": 1.0, "default": 1.0 }
+        }
+      }
+    }
+  }
+}
