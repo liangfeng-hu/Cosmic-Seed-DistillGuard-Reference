@@ -1,0 +1,25 @@
+name: demo
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  run-demo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run demo
+        run: |
+          python reference-impl/python/demo.py | tee demo.log
+          grep -q "DEMO_END" demo.log
+          grep -q "RC_THERMO_FORGERY" demo.log
+          grep -q "RC_DISTILLATION_INTENT_DETECTED" demo.log
+          grep -q "FAIL-CLOSED" demo.log
