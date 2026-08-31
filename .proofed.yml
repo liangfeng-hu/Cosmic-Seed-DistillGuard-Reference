@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "tests": {
+    "auto_inferred": false,
+    "commands": [
+      [
+        "bash",
+        "-lc",
+        "python reference-impl/python/demo.py | tee demo.log && grep -q DEMO_END demo.log && grep -q RC_THERMO_FORGERY demo.log && grep -q RC_DISTILLATION_INTENT_DETECTED demo.log && grep -q FAIL-CLOSED demo.log"
+      ]
+    ],
+    "timeout_seconds": 900
+  },
+  "completion": {
+    "require": [
+      "tests_passed",
+      "git_diff_recorded"
+    ]
+  },
+  "hooks": {
+    "stop_gate": true,
+    "max_blocks_per_revision": 2
+  }
+}
